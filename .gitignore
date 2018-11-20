@@ -1,0 +1,8 @@
+.idea
+composer.lock
+*.log
+
+*.css.map
+.sass-cache
+doc
+/source/application/database.php
