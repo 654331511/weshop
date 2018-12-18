@@ -43,7 +43,7 @@ class Cart
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    public function getList($user)
+    public function getList($user,$self)
     {
         // 商品列表
         $goodsList = [];
@@ -104,11 +104,16 @@ class Cart
         $allExpressPrice = array_column($cartList, 'express_price');
         // 订单总运费金额
         $expressPrice = $allExpressPrice ? Delivery::freightRule($allExpressPrice) : 0.00;
+        if ($self == 'false') {
+            $order_pay_price = bcadd($orderTotalPrice, $expressPrice, 2);
+        }elseif ($self == 'true') {
+            $order_pay_price = $orderTotalPrice;
+        }
         return [
             'goods_list' => $cartList,                       // 商品列表
             'order_total_num' => $this->getTotalNum(),       // 商品总数量
             'order_total_price' => round($orderTotalPrice, 2),              // 商品总金额 (不含运费)
-            'order_pay_price' => bcadd($orderTotalPrice, $expressPrice, 2),    // 实际支付金额
+            'order_pay_price' => $order_pay_price,    // 实际支付金额
             'address' => $user['address_default'],  // 默认地址
             'exist_address' => $exist_address,      // 是否存在收货地址
             'express_price' => $expressPrice,       // 配送费用

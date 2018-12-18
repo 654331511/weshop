@@ -31,7 +31,7 @@ class Order extends OrderModel
      * @return array
      * @throws \think\exception\DbException
      */
-    public function getBuyNow($user, $goods_id, $goods_num, $goods_sku_id)
+    public function getBuyNow($user, $goods_id, $goods_num, $goods_sku_id,$self='false')
     {
         // 商品信息
         /* @var Goods $goods */
@@ -64,17 +64,23 @@ class Order extends OrderModel
         // 计算配送费用
         $expressPrice = $intraRegion ?
             $goods['delivery']->calcTotalFee($goods_num, $goods_total_weight, $cityId) : 0;
+        if ($self == 'false') {
+            $order_pay_price = bcadd($totalPrice, $expressPrice, 2);
+        }elseif ($self == 'true') {
+            $order_pay_price = $totalPrice;
+        }
         return [
             'goods_list' => [$goods],               // 商品详情
             'order_total_num' => $goods_num,        // 商品总数量
             'order_total_price' => $totalPrice,    // 商品总金额 (不含运费)
-            'order_pay_price' => bcadd($totalPrice, $expressPrice, 2),  // 实际支付金额
+            'order_pay_price' => $order_pay_price,  // 实际支付金额
             'address' => $user['address_default'],  // 默认地址
             'exist_address' => $exist_address,  // 是否存在收货地址
             'express_price' => $expressPrice,    // 配送费用
             'intra_region' => $intraRegion,    // 当前用户收货城市是否存在配送规则中
             'has_error' => $this->hasError(),
             'error_msg' => $this->getError(),
+            'self' => $self,
         ];
     }
 
@@ -87,10 +93,10 @@ class Order extends OrderModel
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    public function getCart($user)
+    public function getCart($user,$self)
     {
         $model = new Cart($user['user_id']);
-        return $model->getList($user);
+        return $model->getList($user,$self);
     }
 
     /**

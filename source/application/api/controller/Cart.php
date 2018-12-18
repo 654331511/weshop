@@ -39,7 +39,7 @@ class Cart extends Controller
      */
     public function lists()
     {
-        return $this->renderSuccess($this->model->getList($this->user));
+        return $this->renderSuccess($this->model->getList($this->user,$self='false'));
     }
 
     /**

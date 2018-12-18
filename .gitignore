@@ -6,3 +6,4 @@ composer.lock
 .sass-cache
 doc
 /source/application/database.php
+/web/phpinfo.php
