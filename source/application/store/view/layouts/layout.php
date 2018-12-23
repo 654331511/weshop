@@ -15,9 +15,30 @@
     <link rel="stylesheet" href="//at.alicdn.com/t/font_783249_t6knt0guzo.css">
     <script src="assets/store/js/jquery.min.js"></script>
     <script src="//at.alicdn.com/t/font_783249_e5yrsf08rap.js"></script>
+    <script src="assets/store/js/push.min.js"></script>
     <script>
+        Push.Permission.request();
         BASE_URL = '<?= isset($base_url) ? $base_url : '' ?>';
         STORE_URL = '<?= isset($store_url) ? $store_url : '' ?>';
+        setInterval("getorder()",60000 );
+       function getorder(){
+            $.ajax({
+                type: "get",
+                url: "/index.php?s=/store/order/delivery_list",
+                dataType: "json",
+                success: function (response) {
+                    var order =$(response).find("#order_no").text();
+                    console.log(order);
+                    if(order){
+                        Push.create('有待发货订单!', {
+                            body: '及时处理!',           
+                            requireInteraction:true,
+                            icon:'/assets/store/img/icon.png',
+                        });
+                    }
+                }
+            });
+        }
     </script>
 </head>
 
