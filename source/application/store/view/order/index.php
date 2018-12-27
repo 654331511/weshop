@@ -51,7 +51,7 @@
                                         <?php if ($i === 1) : $goodsCount = count($order['goods']); ?>
                                             <td class="am-text-middle" rowspan="<?= $goodsCount ?>">
                                                 <p>￥<?= $order['pay_price'] ?></p>
-                                                <p class="am-link-muted">(含运费：￥<?= $order['express_price'] ?>)</p>
+                                                <p class="am-link-muted"><?= $order['self'] ?></p>
                                             </td>
                                             <td class="am-text-middle" rowspan="<?= $goodsCount ?>">
                                                 <p><?= $order['user']['nickName'] ?></p>

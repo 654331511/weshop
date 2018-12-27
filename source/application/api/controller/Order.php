@@ -50,7 +50,7 @@ class Order extends Controller
             return $this->renderError($model->getError());
         }
         // 创建订单
-        if ($model->add($this->user['user_id'], $order)) {
+        if ($model->add($this->user['user_id'], $order,$self)) {
 
             // 发起微信支付
             return $this->renderSuccess([
@@ -83,7 +83,7 @@ class Order extends Controller
             return $this->renderSuccess($order);
         }
         // 创建订单
-        if ($model->add($this->user['user_id'], $order)) {
+        if ($model->add($this->user['user_id'], $order,$self)) {
 
             // 清空购物车
             $Card = new CartModel($this->user['user_id']);

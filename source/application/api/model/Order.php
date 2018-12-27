@@ -106,11 +106,16 @@ class Order extends OrderModel
      * @return bool
      * @throws \Exception
      */
-    public function add($user_id, $order)
+    public function add($user_id, $order,$self)
     {
         if (empty($order['address'])) {
             $this->error = '请先选择收货地址';
             return false;
+        }
+        if ($self == 'true') {
+            $self = '到店自取';
+        }else {
+            $self = '配送';
         }
         Db::startTrans();
         // 记录订单信息
@@ -121,6 +126,7 @@ class Order extends OrderModel
             'total_price' => $order['order_total_price'],
             'pay_price' => $order['order_pay_price'],
             'express_price' => $order['express_price'],
+            'self'=>$self,
         ]);
         // 订单商品列表
         $goodsList = [];
