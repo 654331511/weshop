@@ -120,6 +120,7 @@ class Cart
             'intra_region' => $intraRegion,         // 当前用户收货城市是否存在配送规则中
             'has_error' => $this->hasError(),
             'error_msg' => $this->getError(),
+            'self' => $self,
         ];
     }
 
