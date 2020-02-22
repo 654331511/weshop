@@ -133,7 +133,8 @@
                                 </tr>
                             <?php endforeach; ?>
                             <tr>
-                                <td colspan="6" class="am-text-right">总计金额：￥<?= $detail['total_price'] ?></td>
+                                <td>买家备注:<?= $detail['message'] ?></td>
+                                <td colspan="5" class="am-text-right">总计金额：￥<?= $detail['total_price'] ?></td>
                             </tr>
                             </tbody>
                         </table>

@@ -52,6 +52,7 @@
                                             <td class="am-text-middle" rowspan="<?= $goodsCount ?>">
                                                 <p>￥<?= $order['pay_price'] ?></p>
                                                 <p class="am-link-muted"><?= $order['self'] ?></p>
+                                                <p class="am-link-muted">买家备注:<?= $order['message'] ?></p>
                                             </td>
                                             <td class="am-text-middle" rowspan="<?= $goodsCount ?>">
                                                 <p><?= $order['user']['nickName'] ?></p>
