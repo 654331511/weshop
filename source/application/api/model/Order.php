@@ -56,12 +56,21 @@ class Order extends OrderModel
         // 当前用户收货城市id
         $cityId = $user['address_default'] ? $user['address_default']['city_id'] : null;
         // 是否存在收货地址
+        // if ($self == 'false') {
+        //     $exist_address = !$user['address']->isEmpty();
+        //     if (!$intraRegion = $goods['delivery']->checkAddress($cityId)) {
+        //         $exist_address && $this->setError('很抱歉，您的收货地址不在配送范围内');
+        //     }
+        // }else{
+        //     $exist_address = true;
+        //     $intraRegion = true;
+        // }
         $exist_address = !$user['address']->isEmpty();
         // 验证用户收货地址是否存在运费规则中
         if (!$intraRegion = $goods['delivery']->checkAddress($cityId)) {
             $exist_address && $this->setError('很抱歉，您的收货地址不在配送范围内');
         }
-        // 计算配送费用
+        // // 计算配送费用
         $expressPrice = $intraRegion ?
             $goods['delivery']->calcTotalFee($goods_num, $goods_total_weight, $cityId) : 0;
         if ($self == 'false') {
@@ -106,7 +115,7 @@ class Order extends OrderModel
      * @return bool
      * @throws \Exception
      */
-    public function add($user_id, $order,$self)
+    public function add($user_id, $order,$self,$message)
     {
         if (empty($order['address'])) {
             $this->error = '请先选择收货地址';
@@ -127,6 +136,7 @@ class Order extends OrderModel
             'pay_price' => $order['order_pay_price'],
             'express_price' => $order['express_price'],
             'self'=>$self,
+            'message' => $message,
         ]);
         // 订单商品列表
         $goodsList = [];

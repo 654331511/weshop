@@ -54,6 +54,11 @@ class Cart
         // 当前用户收货城市id
         $cityId = $user['address_default'] ? $user['address_default']['city_id'] : null;
         // 是否存在收货地址
+        // if ($self == 'true') {
+        //     $exist_address = true;
+        // }else{
+        //     $exist_address = !$user['address']->isEmpty();
+        // }
         $exist_address = !$user['address']->isEmpty();
         // 商品是否在配送范围
         $intraRegion = true;

@@ -38,7 +38,7 @@ class Order extends Controller
      * @throws \think\exception\DbException
      * @throws \Exception
      */
-    public function buyNow($goods_id, $goods_num, $goods_sku_id,$self)
+    public function buyNow($goods_id, $goods_num, $goods_sku_id,$self,$message='')
     {
         // 商品结算信息
         $model = new OrderModel;
@@ -50,7 +50,7 @@ class Order extends Controller
             return $this->renderError($model->getError());
         }
         // 创建订单
-        if ($model->add($this->user['user_id'], $order,$self)) {
+        if ($model->add($this->user['user_id'], $order,$self,$message)) {
 
             // 发起微信支付
             return $this->renderSuccess([
@@ -74,7 +74,7 @@ class Order extends Controller
      * @throws \think\exception\DbException
      * @throws \Exception
      */
-    public function cart($self)
+    public function cart($self,$message='')
     {
         // 商品结算信息
         $model = new OrderModel;
@@ -83,7 +83,7 @@ class Order extends Controller
             return $this->renderSuccess($order);
         }
         // 创建订单
-        if ($model->add($this->user['user_id'], $order,$self)) {
+        if ($model->add($this->user['user_id'], $order,$self,$message)) {
 
             // 清空购物车
             $Card = new CartModel($this->user['user_id']);
